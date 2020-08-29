@@ -2,7 +2,8 @@ const {
     series,
     src,
     dest,
-    parallel
+    parallel,
+    watch
 } = require('gulp');
 var clean = require('gulp-clean');
 const gulpHtmlmin = require('gulp-htmlmin');
@@ -32,4 +33,14 @@ function cssBuild() {
         .pipe(dest("build"))
 }
 
+//Убираем пробелы в Html
+function watchFiles() {
+    return [
+        watch("src/**/*.html", parallel(htmlBuild)),
+        watch("src/**/*.js", parallel(jsBuild)),
+        watch("src/**/*.css", parallel(cssBuild))
+    ];   
+}
+
 exports.default = series(cleanDirectory, parallel(htmlBuild, jsBuild, cssBuild));
+exports.watch = series(watchFiles);
