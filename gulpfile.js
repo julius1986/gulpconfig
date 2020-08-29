@@ -1,29 +1,35 @@
-const { series, src, dest, parallel } = require('gulp');
+const {
+    series,
+    src,
+    dest,
+    parallel
+} = require('gulp');
 var clean = require('gulp-clean');
 const gulpHtmlmin = require('gulp-htmlmin');
 
-function cleanDirectory(){
-    return src("build")
-    .pipe(clean());
+function cleanDirectory() {
+    return src("build/**/*").pipe(clean());
 }
 
 //Убираем пробелы в Html
-function htmlBuild(){
+function htmlBuild() {
     return src("src/**/*.html")
-    .pipe(gulpHtmlmin({ collapseWhitespace: true }))
-    .pipe(dest("build"))
+        .pipe(gulpHtmlmin({
+            collapseWhitespace: true
+        }))
+        .pipe(dest("build"))
 }
 
 //Убираем пробелы в Html
-function jsBuild(){
+function jsBuild() {
     return src("src/**/*.js")
-    .pipe(dest("build"))
+        .pipe(dest("build"))
 }
 
 //Убираем пробелы в Html
-function cssBuild(){
+function cssBuild() {
     return src("src/**/*.css")
-    .pipe(dest("build"))
+        .pipe(dest("build"))
 }
 
 exports.default = series(cleanDirectory, parallel(htmlBuild, jsBuild, cssBuild));
