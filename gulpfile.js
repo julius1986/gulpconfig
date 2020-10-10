@@ -7,6 +7,7 @@ const {
 } = require('gulp');
 var clean = require('gulp-clean');
 const gulpHtmlmin = require('gulp-htmlmin');
+const cleanCSS = require('gulp-clean-css');
 
 function cleanDirectory() {
     return src("build/**/*").pipe(clean());
@@ -29,8 +30,10 @@ function jsBuild() {
 
 //Убираем пробелы в Html
 function cssBuild() {
+    //можно указать 1 главный css файл на входе
     return src("src/**/*.css")
-        .pipe(dest("build"))
+    .pipe(cleanCSS({compatibility: 'ie8'}))
+    .pipe(dest('build'));
 }
 
 //Убираем пробелы в Html
